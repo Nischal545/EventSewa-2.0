@@ -1,4 +1,5 @@
 import React, {useRef} from 'react';
+import Button from './Button';
 
 function OtpForm() {
     // Creating references to automatically move focus to the next box
@@ -42,6 +43,7 @@ function OtpForm() {
                     ))}
                 </div>
             </form>
+
         </div>
     );
 }
