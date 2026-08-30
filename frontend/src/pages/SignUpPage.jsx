@@ -18,19 +18,16 @@ flex flex-col gap-1 justify-center items-center min-h-screen">
 
                         <Link to="/email&otp">
                             <Button index={1}
-                                className="flex items-center justify-center min-w-full px-10 gap-2.5"
+                                className={"w-full block"}
+                                icon={IoIosMail}
                             >
-
-                                <IoIosMail className="text-2xl"/>
                                 Sign Up with Email
 
 
                             </Button>
                         </Link>
 
-                        <Button index={2} onClick={GoogleSignup()}
-                            className="flex items-center justify-center min-w-full px-10 gap-2.5">
-                            <FaGooglePlus className="text-2xl"/>
+                        <Button index={2} onClick={GoogleSignup()} icon={FaGooglePlus} className={"w-full block"}>
                             Sign Up with Google
                         </Button>
 
