@@ -34,7 +34,9 @@ function OtpForm() {
                             key={idx}
                             type="text"
                             maxLength="1"
-                            ref={(el) => (inputsRef.current[idx] = el)}
+                            ref={(el) => {
+                                inputsRef.current[idx] = el
+                            }}
                             onChange={(e) => handleChange(e, idx)}
                             onKeyDown={(e) => handleKeyDown(e, idx)}
                             className="form-control text-center fs-4 fw-bold"

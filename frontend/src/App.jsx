@@ -5,7 +5,8 @@ import WelcomePage from "./pages/WelcomePage.jsx";
 import SignupPage from './pages/SignUpPage.jsx'
 import EmailandOTPPage from './pages/EmailandOTP.jsx'
 import HomePage from './pages/HomePage.jsx'
-import RootLayout from './Layouts/RootLayout.jsx'
+import SplitLayout from './Layouts/SplitLayout.jsx'
+import PhoneandOTP from "./pages/PhoneandOTP.jsx";
 
 function App() {
 
@@ -18,7 +19,8 @@ function App() {
                     <Route exact path="/welcome" element={<WelcomePage/>}/>
                     <Route exact path="/SignUpPage" element={<SignupPage/>}/>
                     <Route exact path="/email&otp" element={<EmailandOTPPage/>}/>
-                    <Route exact path="/RootLayout" element={<RootLayout/>}/>
+                    <Route exact path="/SplitLayout" element={<SplitLayout/>}/>
+                    <Route exact path="/phone&otp" element={<PhoneandOTP/>}/>
                 </Routes>
             </BrowserRouter>
         </>

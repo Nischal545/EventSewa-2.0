@@ -20,7 +20,7 @@ export default function ProfileCircle({
     return (
         <div
             onClick={onClick}
-            className={`fixed z-50 ${positionClasses[position] || positionClasses["top-right"]}`}
+            className={`${positionClasses[position] || positionClasses["top-right"]}`}
         >
             <div
                 className="w-12 h-12 rounded-full border-2 border-emerald-400 bg-emerald-600 text-white flex items-center justify-center font-bold text-xl cursor-pointer shadow-lg hover:scale-105 hover:shadow-emerald-300/50 transition-all duration-200 overflow-hidden">
