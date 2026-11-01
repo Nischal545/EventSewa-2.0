@@ -81,10 +81,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'OPTIONS': {
-            "service": "postgres",
-            "passfile": ".my_pass"
-        },
+        "USER": "postgres",
+        "NAME": "eventsewa",
+        "PASSWORD": "password",
+        'HOST': 'localhost',
+        'PORT': 5432,
+        # 'OPTIONS': {
+        #     "service": "postgres",
+        #     "passfile": ".my_pass"
+        # },
         # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
@@ -134,7 +139,7 @@ MAILERS = {
             "port": 587,
             "use_tls": True,
             "username": "nischalacharya545@gmail.com",
-            "password": "ghks zdij itzr ivql",
+            "password": os.getenv('SENDING_GMAIL_PASSWORD', 'default_gmailSecret_key')
         }
     },
 }
