@@ -1,121 +1,205 @@
-import {Link} from "react-router-dom";
-import Logo from "../assets/Logo.png";
-import {MdMenu, MdClose} from "react-icons/md";
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
+
+import Logo from "../assets/Logo.png";
+
+import { MdMenu, MdClose } from "react-icons/md";
+
 import Button from "../components/Button.jsx";
 import ProfileCircle from "../components/ProfileCircle.jsx";
-import {HiOutlineBuildingOffice2} from "react-icons/hi2";
+import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 
-export default function SplitLayout({children}) {
-    const [open, setOpen] = React.useState(false);
+export default function SplitLayout({
+  children,
 
-    function handleOpen() {
-        setOpen(true);
+  // Sidebar configuration
+  sidebarItems = [],
+
+  // Header configuration
+  showOrganizerSignup = false,
+  organizerSignupPath = "/organizerForm",
+
+  // Profile configuration
+  showProfile = true,
+  profileImageSrc = "https://i.pravatar.cc/150?img=3",
+  onProfileClick,
+
+  // Optional user information
+  userId,
+
+  // Optional customization
+  activeItem,
+  logo = Logo,
+}) {
+  const [open, setOpen] = React.useState(false);
+
+  const location = useLocation();
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleProfileClick = () => {
+    if (onProfileClick) {
+      onProfileClick();
+    } else {
+      console.log("Profile clicked!");
+    }
+  };
+
+  // Check whether a sidebar item is active
+  const isActive = (item) => {
+    if (activeItem) {
+      return activeItem === item.label;
     }
 
-    function handleClose() {
-        setOpen(false);
-    }
-
-    const handleProfileClick = () => {
-        console.log("Profile clicked!");
-    };
+    if (!item.to) return false;
 
     return (
-        <>
-            <div className={"mt-4 p-4 border-top overflow-x-hidden"}>
-                {/*    container */}
-                <header>{/*    AD or maybe signup as organizer*/}
-                    <div className={"flex justify-center w-full"}>
-                        <img
-                            src={Logo}
-                            alt={"logo"}
-                            className={"h-10 w-auto object-contain"}
-                        />
-
-                        <Button index={1} icon={HiOutlineBuildingOffice2}>
-                            SignUp to Organise
-                        </Button>
-
-                    </div>
-                </header>
-
-
-                <main>
-                    {/*   main view*/}
-                    <div>
-                        {/*    SIDEBAR TRIGGER*/}
-
-                        {!open && (
-                            <div className={"flex items-center justify-between gap-3 mt-9"}>
-                                <MdMenu
-                                    className="text-5xl cursor-pointer"
-                                    onClick={handleOpen}
-                                />
-
-                                {/*    profile cirlce*/}
-                                {/*    profile*/}
-                                <ProfileCircle
-                                    onClick={handleProfileClick}
-                                    imageSrc="https://i.pravatar.cc/150?img=3"
-                                    position={"top-right"}
-                                />
-
-                            </div>
-                        )}
-
-                        {/*    OVERLAY - click outside to close */}
-                        <div
-                            className={`fixed inset-0 bg-black/40 z-30 transition-opacity duration-300 ease-in-out ${
-                                open
-                                    ? "opacity-100 pointer-events-auto"
-                                    : "opacity-0 pointer-events-none"
-                            }`}
-                            onClick={handleClose}
-                        />
-
-                        {/*    SIDEBAR PANEL */}
-                        <div
-                            // MISTAKE -> WHY ? FINDOUT :<img src={Logo}/>
-                            className={`fixed top-0 left-0 z-40 bg-gray-300 w-2/5 min-h-screen
-                        transform transition-transform duration-300 ease-in-out
-                        ${open ? "translate-x-0" : "-translate-x-full"}`}
-                        >
-                            {/*{SIDEBAR HEADER (Logo + Close Button}*/}
-                            <div
-                                className={
-                                    "flex items-center justify-center mt-6 pb-2 border-b border-emerald-400"
-                                }
-                            >
-                                <img
-                                    src={Logo}
-                                    alt={"logo"}
-                                    className={"h-12 w-auto object-contain ml-2"}
-                                />
-                            </div>
-                            <MdClose
-                                className="text-4xl m-4 cursor-pointer"
-                                onClick={handleClose}
-                            />
-
-                            {/*SIDEBAR MENU BUTTONS*/}
-                            <div className={"flex flex-col items-center gap-4"}>
-                                <Button index={2} className={"w-50"}>Home</Button>
-                                <Button index={2} className={"w-50"}>Notifications</Button>
-                                <Button index={2} className={"w-50"}>History</Button>
-                                <Button index={2} className={"w-50"}>Profile</Button>
-
-                            </div>
-                            <p>Here will go the User Id in the bottom</p>
-                        </div>
-
-                    </div>
-                </main>
-
-                {/*<footer>*/}
-                {/*/!*    only for some pages not global one*!/*/}
-                {/*</footer>*/}
-            </div>
-        </>
+      location.pathname === item.to ||
+      location.pathname.startsWith(`${item.to}/`)
     );
+  };
+
+  // Handle sidebar item clicks
+  const handleItemClick = (item) => {
+    if (item.onClick) {
+      item.onClick();
+    }
+
+    handleClose();
+  };
+
+  return (
+    <div className="min-h-screen mt-4 p-4 overflow-x-hidden">
+      {/* HEADER */}
+      <header className="flex items-center justify-between gap-4">
+        <Link to="/" className="flex items-center">
+          <img
+            src={logo}
+            alt="EventSewa Logo"
+            className="h-10 w-auto object-contain"
+          />
+        </Link>
+
+        {showOrganizerSignup && (
+          <Button
+            as={Link}
+            to={organizerSignupPath}
+            variant="primary"
+            icon={HiOutlineBuildingOffice2}
+            className="text-sm sm:text-base"
+          >
+            SignUp to Organise
+          </Button>
+        )}
+      </header>
+
+      <main>
+        {/* SIDEBAR TRIGGER */}
+        <div className="flex items-center justify-between gap-3 mt-9">
+          <button
+            type="button"
+            onClick={handleOpen}
+            aria-label="Open sidebar"
+            className="text-4xl cursor-pointer text-gray-700 hover:text-blue-600 transition"
+          >
+            <MdMenu />
+          </button>
+
+          {showProfile && (
+            <ProfileCircle
+              onClick={handleProfileClick}
+              imageSrc={profileImageSrc}
+              position="top-right"
+            />
+          )}
+        </div>
+
+        {/* OVERLAY */}
+        <div
+          className={`fixed inset-0 bg-black/40 z-30 transition-opacity duration-300 ease-in-out ${
+            open
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }`}
+          onClick={handleClose}
+        />
+
+        {/* SIDEBAR PANEL */}
+        <aside
+          className={`
+                        fixed top-0 left-0 z-40
+                        bg-white shadow-2xl
+                        w-72 max-w-[85vw] min-h-screen
+                        transform transition-transform duration-300 ease-in-out
+                        ${open ? "translate-x-0" : "-translate-x-full"}
+                    `}
+        >
+          {/* SIDEBAR HEADER */}
+          <div className="flex items-center justify-between px-5 py-5 border-b border-gray-200">
+            <img
+              src={logo}
+              alt="EventSewa Logo"
+              className="h-10 w-auto object-contain"
+            />
+
+            <button
+              type="button"
+              onClick={handleClose}
+              aria-label="Close sidebar"
+              className="text-3xl text-gray-600 hover:text-red-500 cursor-pointer"
+            >
+              <MdClose />
+            </button>
+          </div>
+
+          {/* SIDEBAR MENU */}
+          <nav className="flex flex-col gap-2 p-4">
+            {sidebarItems.map((item, index) => {
+              const Icon = item.icon;
+              const active = isActive(item);
+
+              const buttonClass = `
+                                w-full justify-start text-left
+                                ${active ? "!bg-blue-600 !text-white" : ""}
+                            `;
+
+              return (
+                <Button
+                  key={item.id || item.label || index}
+                  as={item.to ? Link : "button"}
+                  to={item.to}
+                  onClick={() => handleItemClick(item)}
+                  icon={Icon}
+                  variant="sidebar"
+                  className={buttonClass}
+                >
+                  {item.label}
+                </Button>
+              );
+            })}
+          </nav>
+
+          {/* SIDEBAR FOOTER */}
+          {userId && (
+            <div className="absolute bottom-0 left-0 w-full border-t border-gray-200 p-4">
+              <p className="text-xs text-gray-500">User ID</p>
+
+              <p className="text-sm font-semibold text-gray-700 break-all">
+                {userId}
+              </p>
+            </div>
+          )}
+        </aside>
+
+        {/* PAGE CONTENT */}
+        {children}
+      </main>
+    </div>
+  );
 }

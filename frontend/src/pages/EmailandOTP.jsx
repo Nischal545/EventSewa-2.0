@@ -179,7 +179,7 @@ export default function EmailandOTP() {
                                 setOtp={setOtp}
                             />
 
-                            <Link to="/SplitLayout"><Button
+                            <Link to="/CustomerDashboard"><Button
                                 index={0}
                                 type="submit"
                                 disabled={loading}

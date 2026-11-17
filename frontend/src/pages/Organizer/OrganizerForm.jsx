@@ -55,7 +55,7 @@ function validate(step, data) {
     return errors;
 }
 
-export default function OrganizerDashboard() {
+export default function OrganizerForm() {
 
     const [step, setStep] = useState(1);
     const [data, setData] = useState(initialData);
